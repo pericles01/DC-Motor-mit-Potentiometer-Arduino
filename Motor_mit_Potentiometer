@@ -1,0 +1,74 @@
+//Pin Motor A
+ 
+int enA = 9;
+int in1 = 8;
+int in2 = 7;
+ 
+//Pin Motor B
+ 
+int enB = 3;
+int in3 = 5;
+int in4 = 4;
+ 
+//Pin Potentiometers zur Geschwindigkeitsteuerung
+ 
+int SpeedControl1 = A0;  
+int SpeedControl2 = A1;
+ 
+ 
+//Anfangsgeschw. 
+ 
+int MotorSpeed1 = 0;
+int MotorSpeed2 = 0;
+ 
+void setup()
+ 
+{
+ 
+  //als Output setzen
+ 
+  pinMode(enA, 1);
+  pinMode(enB, 1);
+  pinMode(in1, 1);
+  pinMode(in2, 1);
+  pinMode(in3, 1);
+  pinMode(in4, 1);
+  
+   
+}
+ 
+void loop() {
+  
+  // Setzt Motor A vorwärts
+ 
+  digitalWrite(in1, 1);
+  digitalWrite(in2, 0);
+ 
+ // Setzt Motor B vorwärts
+ 
+  digitalWrite(in3, 1);
+  digitalWrite(in4, 0);
+  
+  // Werte in Potentiometer einlesen
+    
+  MotorSpeed1 = analogRead(SpeedControl1); 
+  MotorSpeed2 = analogRead(SpeedControl2);
+  
+  // zu Wertbereich 0-255 bringen
+  
+  MotorSpeed1 = map(MotorSpeed1, 0, 1023, 0, 255);
+  MotorSpeed2 = map(MotorSpeed2, 0, 1023, 0, 255);  
+  
+  // "buzzing" vorbeugen bei kleiner Geschwindigkeit
+  
+  if (MotorSpeed1 < 8)MotorSpeed1 = 0;
+        
+  if (MotorSpeed2 < 8)MotorSpeed2 = 0;
+    
+  
+  // Geschwindigkeit setzen
+  
+  analogWrite(enA, MotorSpeed1);
+  analogWrite(enB, MotorSpeed2);
+  
+}
